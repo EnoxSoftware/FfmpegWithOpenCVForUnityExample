@@ -75,24 +75,32 @@ namespace FfmpegWithOpenCVForUnityExample
         {
             SceneManager.LoadScene("FfmpegToMatHelperExample");
         }
-
-        public void OnYOLOv7ObjectDetectionFfmpegExampleButtonClick()
+        public void OnFfplayToMatHelperExampleButtonClick()
         {
-            SceneManager.LoadScene("YOLOv7ObjectDetectionFfmpegExample");
-        }
-        public void OnHumanSegmentationFfmpegExampleButtonClick()
-        {
-            SceneManager.LoadScene("HumanSegmentationFfmpegExample");
+            SceneManager.LoadScene("FfplayToMatHelperExample");
         }
 
-        public void OnArUcoCameraCalibrationFfmpegExampleButtonClick()
+        public void OnFfmpegGetTexturePerFrameToMatHelperExampleButtonClick()
         {
-            SceneManager.LoadScene("ArUcoCameraCalibrationFfmpegExample");
+            SceneManager.LoadScene("FfmpegGetTexturePerFrameToMatHelperExample");
+        }
+        public void OnYOLOv7ObjectDetectionFfplayExampleButtonClick()
+        {
+            SceneManager.LoadScene("YOLOv7ObjectDetectionFfplayExample");
+        }
+        public void OnHumanSegmentationFfplayExampleButtonClick()
+        {
+            SceneManager.LoadScene("HumanSegmentationFfplayExample");
         }
 
-        public void OnArUcoFfmpegExampleButtonClick()
+        public void OnArUcoCameraCalibrationFfplayExampleButtonClick()
         {
-            SceneManager.LoadScene("ArUcoFfmpegExample");
+            SceneManager.LoadScene("ArUcoCameraCalibrationFfplayExample");
+        }
+
+        public void OnArUcoFfplayExampleButtonClick()
+        {
+            SceneManager.LoadScene("ArUcoFfplayExample");
         }
 
     }

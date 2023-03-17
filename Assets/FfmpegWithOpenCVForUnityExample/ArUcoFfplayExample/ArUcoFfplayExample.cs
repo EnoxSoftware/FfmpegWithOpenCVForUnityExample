@@ -23,8 +23,8 @@ namespace FfmpegWithOpenCVForUnityExample
     /// Referring to https://github.com/opencv/opencv_contrib/blob/master/modules/aruco/samples/detect_markers.cpp.
     /// http://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html
     /// </summary>
-    [RequireComponent(typeof(FfmpegToMatHelper))]
-    public class ArUcoFfmpegExample : MonoBehaviour
+    [RequireComponent(typeof(FfplayToMatHelper))]
+    public class ArUcoFfplayExample : MonoBehaviour
     {
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// The webcam texture to mat helper.
         /// </summary>
-        FfmpegToMatHelper ffmpegToMatHelper;
+        FfplayToMatHelper ffplayToMatHelper;
 
         /// <summary>
         /// The rgb mat.
@@ -239,19 +239,19 @@ namespace FfmpegWithOpenCVForUnityExample
             refineMarkerDetectionToggle.interactable = (markerType == MarkerType.GridBoard || markerType == MarkerType.ChArUcoBoard);
             enableLowPassFilterToggle.isOn = enableLowPassFilter;
 
-            ffmpegToMatHelper = gameObject.GetComponent<FfmpegToMatHelper>();
+            ffplayToMatHelper = gameObject.GetComponent<FfplayToMatHelper>();
 
-            ffmpegToMatHelper.Initialize();
+            ffplayToMatHelper.Initialize();
         }
 
         /// <summary>
         /// Raises the webcam texture to mat helper initialized event.
         /// </summary>
-        public void OnFfmpegToMatHelperInitialized()
+        public void OnFfplayToMatHelperInitialized()
         {
-            Debug.Log("OnFfmpegToMatHelperInitialized");
+            Debug.Log("OnFfplayToMatHelperInitialized");
 
-            Mat ffmpegMat = ffmpegToMatHelper.GetMat();
+            Mat ffmpegMat = ffplayToMatHelper.GetMat();
 
             texture = new Texture2D(ffmpegMat.cols(), ffmpegMat.rows(), TextureFormat.RGBA32, false);
             Utils.matToTexture2D(ffmpegMat, texture);
@@ -449,9 +449,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper disposed event.
         /// </summary>
-        public void OnFfmpegToMatHelperDisposed()
+        public void OnFfplayToMatHelperDisposed()
         {
-            Debug.Log("OnFfmpegToMatHelperDisposed");
+            Debug.Log("OnFfplayToMatHelperDisposed");
 
             if (rgbMat != null)
                 rgbMat.Dispose();
@@ -517,18 +517,18 @@ namespace FfmpegWithOpenCVForUnityExample
         /// Raises the webcam texture to mat helper error occurred event.
         /// </summary>
         /// <param name="errorCode">Error code.</param>
-        public void OnFfmpegToMatHelperErrorOccurred(FfmpegToMatHelper.ErrorCode errorCode)
+        public void OnFfplayToMatHelperErrorOccurred(FfplayToMatHelper.ErrorCode errorCode)
         {
-            Debug.Log("OnFfmpegToMatHelperErrorOccurred " + errorCode);
+            Debug.Log("OnFfplayToMatHelperErrorOccurred " + errorCode);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (ffmpegToMatHelper.IsPlaying() && ffmpegToMatHelper.DidUpdateThisFrame())
+            if (ffplayToMatHelper.IsPlaying() && ffplayToMatHelper.DidUpdateThisFrame())
             {
 
-                Mat rgbaMat = ffmpegToMatHelper.GetMat();
+                Mat rgbaMat = ffplayToMatHelper.GetMat();
 
                 Imgproc.cvtColor(rgbaMat, rgbMat, Imgproc.COLOR_RGBA2RGB);
 
@@ -821,7 +821,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         void OnDestroy()
         {
-            ffmpegToMatHelper.Dispose();
+            ffplayToMatHelper.Dispose();
         }
 
         /// <summary>
@@ -837,7 +837,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPlayButtonClick()
         {
-            ffmpegToMatHelper.Play();
+            ffplayToMatHelper.Play();
         }
 
         /// <summary>
@@ -845,7 +845,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPauseButtonClick()
         {
-            ffmpegToMatHelper.Pause();
+            ffplayToMatHelper.Pause();
         }
 
         /// <summary>
@@ -853,7 +853,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnStopButtonClick()
         {
-            ffmpegToMatHelper.Stop();
+            ffplayToMatHelper.Stop();
         }
 
         /// <summary>
@@ -877,8 +877,8 @@ namespace FfmpegWithOpenCVForUnityExample
 
                 ResetObjectTransform();
 
-                if (ffmpegToMatHelper.IsInitialized())
-                    ffmpegToMatHelper.Initialize();
+                if (ffplayToMatHelper.IsInitialized())
+                    ffplayToMatHelper.Initialize();
             }
         }
 
@@ -894,8 +894,8 @@ namespace FfmpegWithOpenCVForUnityExample
 
                 ResetObjectTransform();
 
-                if (ffmpegToMatHelper.IsInitialized())
-                    ffmpegToMatHelper.Initialize();
+                if (ffplayToMatHelper.IsInitialized())
+                    ffplayToMatHelper.Initialize();
             }
         }
 
@@ -908,8 +908,8 @@ namespace FfmpegWithOpenCVForUnityExample
             {
                 useStoredCameraParameters = useStoredCameraParametersToggle.isOn;
 
-                if (ffmpegToMatHelper != null && ffmpegToMatHelper.IsInitialized())
-                    ffmpegToMatHelper.Initialize();
+                if (ffplayToMatHelper != null && ffplayToMatHelper.IsInitialized())
+                    ffplayToMatHelper.Initialize();
             }
         }
 

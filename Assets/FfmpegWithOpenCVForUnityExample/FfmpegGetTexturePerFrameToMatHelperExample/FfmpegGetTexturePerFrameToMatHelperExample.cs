@@ -11,10 +11,10 @@ using UnityEngine.SceneManagement;
 namespace FfmpegWithOpenCVForUnityExample
 {
     /// <summary>
-    /// FfmpegToMatHelper Example
+    /// FfmpegGetTexturePerFrameToMatHelper Example
     /// </summary>
-    [RequireComponent(typeof(FfmpegToMatHelper))]
-    public class FfmpegToMatHelperExample : MonoBehaviour
+    [RequireComponent(typeof(FfmpegGetTexturePerFrameToMatHelper))]
+    public class FfmpegGetTexturePerFrameToMatHelperExample : MonoBehaviour
     {
         ///// <summary>
         ///// The requested resolution dropdown.
@@ -59,7 +59,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// The webcam texture to mat helper.
         /// </summary>
-        FfmpegToMatHelper ffmpegToMatHelper;
+        FfmpegGetTexturePerFrameToMatHelper ffmpegGetTexturePerFrameToMatHelper;
 
         /// <summary>
         /// The FPS monitor.
@@ -71,13 +71,13 @@ namespace FfmpegWithOpenCVForUnityExample
         {
             fpsMonitor = GetComponent<FpsMonitor>();
 
-            ffmpegToMatHelper = gameObject.GetComponent<FfmpegToMatHelper>();
+            ffmpegGetTexturePerFrameToMatHelper = gameObject.GetComponent<FfmpegGetTexturePerFrameToMatHelper>();
             //int width, height;
             //Dimensions(requestedResolution, out width, out height);
             //webCamTextureToMatHelper.requestedWidth = width;
             //webCamTextureToMatHelper.requestedHeight = height;
             //webCamTextureToMatHelper.requestedFPS = (int)requestedFPS;
-            ffmpegToMatHelper.Initialize();
+            ffmpegGetTexturePerFrameToMatHelper.Initialize();
 
             // Update GUI state
             //requestedResolutionDropdown.value = (int)requestedResolution;
@@ -92,11 +92,11 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper initialized event.
         /// </summary>
-        public void OnFfmpegToMatHelperInitialized()
+        public void OnFfmpegGetTexturePerFrameToMatHelperInitialized()
         {
-            Debug.Log("OnFfmpegToMatHelperInitialized");
+            Debug.Log("OnFfmpegGetTexturePerFrameToMatHelperInitialized");
 
-            Mat ffmpegMat = ffmpegToMatHelper.GetMat();
+            Mat ffmpegMat = ffmpegGetTexturePerFrameToMatHelper.GetMat();
 
             texture = new Texture2D(ffmpegMat.cols(), ffmpegMat.rows(), TextureFormat.RGBA32, false);
             Utils.matToTexture2D(ffmpegMat, texture);
@@ -109,8 +109,8 @@ namespace FfmpegWithOpenCVForUnityExample
             if (fpsMonitor != null)
             {
                 //fpsMonitor.Add("deviceName", webCamTextureToMatHelper.GetDeviceName().ToString());
-                fpsMonitor.Add("width", ffmpegToMatHelper.GetWidth().ToString());
-                fpsMonitor.Add("height", ffmpegToMatHelper.GetHeight().ToString());
+                fpsMonitor.Add("width", ffmpegGetTexturePerFrameToMatHelper.GetWidth().ToString());
+                fpsMonitor.Add("height", ffmpegGetTexturePerFrameToMatHelper.GetHeight().ToString());
                 //fpsMonitor.Add("videoRotationAngle", webCamTextureToMatHelper.GetWebCamTexture().videoRotationAngle.ToString());
                 //fpsMonitor.Add("videoVerticallyMirrored", webCamTextureToMatHelper.GetWebCamTexture().videoVerticallyMirrored.ToString());
                 //fpsMonitor.Add("camera fps", webCamTextureToMatHelper.GetFPS().ToString());
@@ -140,9 +140,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper disposed event.
         /// </summary>
-        public void OnFfmpegToMatHelperDisposed()
+        public void OnFfmpegGetTexturePerFrameToMatHelperDisposed()
         {
-            Debug.Log("OnFfmpegToMatHelperDisposed");
+            Debug.Log("OnFfmpegGetTexturePerFrameToMatHelperDisposed");
 
             if (texture != null)
             {
@@ -155,9 +155,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// Raises the webcam texture to mat helper error occurred event.
         /// </summary>
         /// <param name="errorCode">Error code.</param>
-        public void OnFfmpegToMatHelperErrorOccurred(FfmpegToMatHelper.ErrorCode errorCode)
+        public void OnFfmpegGetTexturePerFrameToMatHelperErrorOccurred(FfmpegGetTexturePerFrameToMatHelper.ErrorCode errorCode)
         {
-            Debug.Log("OnFfmpegToMatHelperErrorOccurred " + errorCode);
+            Debug.Log("OnFfmpegGetTexturePerFrameToMatHelperErrorOccurred " + errorCode);
 
             if (fpsMonitor != null)
             {
@@ -169,12 +169,12 @@ namespace FfmpegWithOpenCVForUnityExample
         void Update()
         {
 
-            if (ffmpegToMatHelper.IsPlaying() && ffmpegToMatHelper.DidUpdateThisFrame())
+            if (ffmpegGetTexturePerFrameToMatHelper.IsPlaying() && ffmpegGetTexturePerFrameToMatHelper.DidUpdateThisFrame())
             {
 
-                Mat rgbaMat = ffmpegToMatHelper.GetMat();
+                Mat rgbaMat = ffmpegGetTexturePerFrameToMatHelper.GetMat();
 
-                Imgproc.putText(rgbaMat, "W:" + rgbaMat.width() + " H:" + rgbaMat.height() + " SO:" + Screen.orientation, new Point(5, rgbaMat.rows() - 10), Imgproc.FONT_HERSHEY_SIMPLEX, 1.0, new Scalar(255, 255, 255, 255), 2, Imgproc.LINE_AA, false);
+                Imgproc.putText (rgbaMat, "W:" + rgbaMat.width () + " H:" + rgbaMat.height () + " SO:" + Screen.orientation, new Point (5, rgbaMat.rows () - 10), Imgproc.FONT_HERSHEY_SIMPLEX, 1.0, new Scalar (255, 255, 255, 255), 2, Imgproc.LINE_AA, false);
 
                 Utils.matToTexture2D(rgbaMat, texture);
             }
@@ -186,7 +186,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         void OnDestroy()
         {
-            ffmpegToMatHelper.Dispose();
+            ffmpegGetTexturePerFrameToMatHelper.Dispose();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnInitializeButtonClick()
         {
-            ffmpegToMatHelper.Initialize();
+            ffmpegGetTexturePerFrameToMatHelper.Initialize();
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPlayButtonClick()
         {
-            ffmpegToMatHelper.Play();
+            ffmpegGetTexturePerFrameToMatHelper.Play();
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPauseButtonClick()
         {
-            ffmpegToMatHelper.Pause();
+            ffmpegGetTexturePerFrameToMatHelper.Pause();
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnStopButtonClick()
         {
-            ffmpegToMatHelper.Stop();
+            ffmpegGetTexturePerFrameToMatHelper.Stop();
         }
 
         /// <summary>

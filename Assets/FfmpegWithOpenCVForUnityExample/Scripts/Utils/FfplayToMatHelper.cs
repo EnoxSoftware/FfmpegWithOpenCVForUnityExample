@@ -12,11 +12,11 @@ using UnityEngine.Serialization;
 namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 {
     /// <summary>
-    /// Ffmpeg to mat helper.
+    /// Ffplay to mat helper.
     /// v 1.0.1
     /// </summary>
-    [RequireComponent(typeof(FfmpegPlayerCommand))]
-    public class FfmpegToMatHelper : MonoBehaviour
+    [RequireComponent(typeof(FfplayCommand))]
+    public class FfplayToMatHelper : MonoBehaviour
     {
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         /// <summary>
         /// 
         /// </summary>
-        protected FfmpegPlayerCommand readCommand;
+        protected FfplayCommand readCommand;
 
         /// <summary>
         /// 
@@ -137,7 +137,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
         void Awake()
         {
-            readCommand = GetComponent<FfmpegPlayerCommand>();
+            readCommand = GetComponent<FfplayCommand>();
             readCommand.ExecuteOnStart = false;
         }
 
@@ -187,7 +187,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             isInitWaiting = true;
 
-            if (readCommand.VideoTextures.Length < 1 || readCommand.VideoTextures[0] == null)
+            if (readCommand.VideoTexture == null)
             {
                 isInitWaiting = false;
                 initCoroutine = null;
@@ -198,13 +198,13 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
                 yield break;
             }
 
-            readCommand.StartFfmpeg();
+            readCommand.Play();
 
             int initFrameCount = 0;
             bool isTimeout = false;
 
             
-            while (readCommand.VideoTextures[0].VideoTexture == null)
+            while (readCommand.VideoTexture.VideoTexture == null)
             {
                 if (initFrameCount > timeoutFrameCount)
                 {
@@ -219,7 +219,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             if (isTimeout)
             {
-                readCommand.StopFfmpeg();
+                readCommand.Stop();
                 isInitWaiting = false;
                 initCoroutine = null;
 
@@ -231,7 +231,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             //Debug.Log("readCommand.ReturnCode " + readCommand.ReturnCode);
 
-            Texture2D videoTexture = readCommand.VideoTextures[0].VideoTexture as Texture2D;
+            Texture2D videoTexture = readCommand.VideoTexture.VideoTexture as Texture2D;
 
             baseMat = new Mat(videoTexture.height, videoTexture.width, CvType.CV_8UC4);
 
@@ -270,7 +270,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             if (hasInitDone)
             {
 
-                readCommand.StartFfmpeg();
+                readCommand.Play();
             }
         }
 
@@ -281,8 +281,8 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         {
             if (hasInitDone)
             {
-                
 
+                readCommand.TogglePause();
             }
         }
 
@@ -294,7 +294,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             if (hasInitDone)
             {
 
-                readCommand.StopFfmpeg();
+                readCommand.Stop();
 
             }
         }
@@ -306,7 +306,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         public virtual bool IsPlaying()
         {
 
-            return hasInitDone ? readCommand.IsPlaying : false;
+            return hasInitDone ? readCommand.IsRunning : false;
         }
 
         /// <summary>
@@ -341,10 +341,10 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         }
 
         /// <summary>
-        /// Returns the FfmpegPlayerCommand instance.
+        /// Returns the FfplayCommand instance.
         /// </summary>
-        /// <returns>The FfmpegPlayerCommand instance.</returns>
-        public virtual FfmpegPlayerCommand GetFfmpegPlayerCommand()
+        /// <returns>The FfplayCommand instance.</returns>
+        public virtual FfplayCommand GetFfplayCommand()
         {
             return hasInitDone ? readCommand : null;
         }
@@ -376,11 +376,12 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             if (baseColorFormat == outputColorFormat)
             {
-                Utils.fastTexture2DToMat(readCommand.VideoTextures[0].VideoTexture as Texture2D, frameMat, false);
+                Utils.fastTexture2DToMat(readCommand.VideoTexture.VideoTexture as Texture2D, frameMat, false);
+
             }
             else
             {
-                Utils.fastTexture2DToMat(readCommand.VideoTextures[0].VideoTexture as Texture2D, baseMat, false);
+                Utils.fastTexture2DToMat(readCommand.VideoTexture.VideoTexture as Texture2D, baseMat, false);
                 Imgproc.cvtColor(baseMat, frameMat, ColorConversionCodes(baseColorFormat, outputColorFormat));
             }
 
@@ -526,7 +527,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             didUpdateThisFrame = false;
  
-            readCommand.StopFfmpeg();
+            readCommand.Stop();
 
             if (frameMat != null)
             {

@@ -30,8 +30,8 @@ namespace FfmpegWithOpenCVForUnityExample
     /// https://docs.opencv.org/3.2.0/da/d13/tutorial_aruco_calibration.html
     /// https://github.com/opencv/opencv_contrib/blob/master/modules/aruco/samples/calibrate_camera_charuco.cpp
     /// </summary>
-    [RequireComponent(typeof(FfmpegToMatHelper))]
-    public class ArUcoCameraCalibrationFfmpegExample : MonoBehaviour
+    [RequireComponent(typeof(FfplayToMatHelper))]
+    public class ArUcoCameraCalibrationFfplayExample : MonoBehaviour
     {
         /// <summary>
         /// The marker type used for calibration.
@@ -178,10 +178,10 @@ namespace FfmpegWithOpenCVForUnityExample
 
         /// <summary>
         /// The calibration images directory path.
-        /// Set a relative directory path from the starting point of the "StreamingAssets" folder.  e.g. "objdetect/calibration_images/".
+        /// Set a relative directory path from the starting point of the "StreamingAssets" folder.  e.g. "aruco/calibration_images/".
         /// </summary>
-        [Tooltip("Set a relative directory path from the starting point of the \"StreamingAssets\" folder.  e.g. \"OpenCVForUnity/objdetect/calibration_images\"")]
-        public string calibrationImagesDirectory = "OpenCVForUnity/objdetect/calibration_images";
+        [Tooltip("Set a relative directory path from the starting point of the \"StreamingAssets\" folder.  e.g. \"OpenCVForUnity/aruco/calibration_images\"")]
+        public string calibrationImagesDirectory = "OpenCVForUnity/aruco/calibration_images";
 
         /// <summary>
         /// The texture.
@@ -191,7 +191,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// The webcam texture to mat helper.
         /// </summary>
-        FfmpegToMatHelper ffmpegToMatHelper;
+        FfplayToMatHelper ffplayToMatHelper;
 
         /// <summary>
         /// The gray mat.
@@ -297,7 +297,7 @@ namespace FfmpegWithOpenCVForUnityExample
         IEnumerator Start()
         {
 
-            ffmpegToMatHelper = gameObject.GetComponent<FfmpegToMatHelper>();
+            ffplayToMatHelper = gameObject.GetComponent<FfplayToMatHelper>();
 
             // fix the screen orientation.
             Screen.orientation = ScreenOrientation.LandscapeLeft;
@@ -330,18 +330,18 @@ namespace FfmpegWithOpenCVForUnityExample
 
             if (!isImagesInputMode)
             {
-                ffmpegToMatHelper.Initialize();
+                ffplayToMatHelper.Initialize();
             }
         }
 
         /// <summary>
         /// Raises the webcam texture to mat helper initialized event.
         /// </summary>
-        public void OnFfmpegToMatHelperInitialized()
+        public void OnFfplayToMatHelperInitialized()
         {
-            Debug.Log("OnFfmpegToMatHelperInitialized");
+            Debug.Log("OnFfplayToMatHelperInitialized");
 
-            Mat webCamTextureMat = ffmpegToMatHelper.GetMat();
+            Mat webCamTextureMat = ffplayToMatHelper.GetMat();
 
             InitializeCalibraton(webCamTextureMat);
 
@@ -359,9 +359,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper disposed event.
         /// </summary>
-        public void OnFfmpegToMatHelperDisposed()
+        public void OnFfplayToMatHelperDisposed()
         {
-            Debug.Log("OnFfmpegToMatHelperDisposed");
+            Debug.Log("OnFfplayToMatHelperDisposed");
 
             DisposeCalibraton();
         }
@@ -370,9 +370,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// Raises the webcam texture to mat helper error occurred event.
         /// </summary>
         /// <param name="errorCode">Error code.</param>
-        public void OnFfmpegToMatHelperErrorOccurred(FfmpegToMatHelper.ErrorCode errorCode)
+        public void OnFfplayToMatHelperErrorOccurred(FfplayToMatHelper.ErrorCode errorCode)
         {
-            Debug.Log("OnFfmpegToMatHelperErrorOccurred " + errorCode);
+            Debug.Log("OnFfplayToMatHelperErrorOccurred " + errorCode);
         }
 
         // Update is called once per frame
@@ -381,10 +381,10 @@ namespace FfmpegWithOpenCVForUnityExample
             if (isImagesInputMode)
                 return;
 
-            if (ffmpegToMatHelper.IsPlaying() && ffmpegToMatHelper.DidUpdateThisFrame())
+            if (ffplayToMatHelper.IsPlaying() && ffplayToMatHelper.DidUpdateThisFrame())
             {
 
-                Mat rgbaMat = ffmpegToMatHelper.GetMat();
+                Mat rgbaMat = ffplayToMatHelper.GetMat();
 
                 Imgproc.cvtColor(rgbaMat, grayMat, Imgproc.COLOR_RGBA2GRAY);
 
@@ -1113,7 +1113,7 @@ namespace FfmpegWithOpenCVForUnityExample
             }
             else
             {
-                ffmpegToMatHelper.Dispose();
+                ffplayToMatHelper.Dispose();
             }
 
             Screen.orientation = ScreenOrientation.AutoRotation;
@@ -1135,7 +1135,7 @@ namespace FfmpegWithOpenCVForUnityExample
             if (isImagesInputMode)
                 return;
 
-            ffmpegToMatHelper.Play();
+            ffplayToMatHelper.Play();
         }
 
         /// <summary>
@@ -1191,8 +1191,8 @@ namespace FfmpegWithOpenCVForUnityExample
                 }
                 else
                 {
-                    if (ffmpegToMatHelper.IsInitialized())
-                        ffmpegToMatHelper.Initialize();
+                    if (ffplayToMatHelper.IsInitialized())
+                        ffplayToMatHelper.Initialize();
                 }
             }
         }
@@ -1215,8 +1215,8 @@ namespace FfmpegWithOpenCVForUnityExample
                 }
                 else
                 {
-                    if (ffmpegToMatHelper.IsInitialized())
-                        ffmpegToMatHelper.Initialize();
+                    if (ffplayToMatHelper.IsInitialized())
+                        ffplayToMatHelper.Initialize();
                 }
             }
         }
@@ -1236,8 +1236,8 @@ namespace FfmpegWithOpenCVForUnityExample
                 }
                 else
                 {
-                    if (ffmpegToMatHelper.IsInitialized())
-                        ffmpegToMatHelper.Initialize();
+                    if (ffplayToMatHelper.IsInitialized())
+                        ffplayToMatHelper.Initialize();
                 }
             }
         }
@@ -1325,8 +1325,8 @@ namespace FfmpegWithOpenCVForUnityExample
                 }
                 else
                 {
-                    if (ffmpegToMatHelper.IsInitialized())
-                        ffmpegToMatHelper.Initialize();
+                    if (ffplayToMatHelper.IsInitialized())
+                        ffplayToMatHelper.Initialize();
                 }
             }
         }
