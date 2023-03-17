@@ -27,8 +27,8 @@ namespace FfmpegWithOpenCVForUnityExample
     /// yolov7-tiny https://github.com/AlexeyAB/darknet/releases/download/yolov4/yolov7-tiny.weights, https://raw.githubusercontent.com/AlexeyAB/darknet/0faed3e60e52f742bbef43b83f6be51dd30f373e/cfg/yolov7-tiny.cfg
     /// yolov7 https://github.com/AlexeyAB/darknet/releases/download/yolov4/yolov7.weights, https://raw.githubusercontent.com/AlexeyAB/darknet/0faed3e60e52f742bbef43b83f6be51dd30f373e/cfg/yolov7.cfg
     /// </summary>
-    [RequireComponent(typeof(FfmpegToMatHelper))]
-    public class YOLOv7ObjectDetectionFfmpegExample : MonoBehaviour
+    [RequireComponent(typeof(FfplayToMatHelper))]
+    public class YOLOv7ObjectDetectionFfplayExample : MonoBehaviour
     {
         [TooltipAttribute("Path to a binary file of model contains trained weights. It could be a file with extensions .caffemodel (Caffe), .pb (TensorFlow), .t7 or .net (Torch), .weights (Darknet).")]
         public string model = "yolov7-tiny.weights";
@@ -74,7 +74,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// The webcam texture to mat helper.
         /// </summary>
-        FfmpegToMatHelper ffmpegToMatHelper;
+        FfplayToMatHelper ffplayToMatHelper;
 
         /// <summary>
         /// The bgr mat.
@@ -101,7 +101,7 @@ namespace FfmpegWithOpenCVForUnityExample
         {
             fpsMonitor = GetComponent<FpsMonitor>();
 
-            ffmpegToMatHelper = gameObject.GetComponent<FfmpegToMatHelper>();
+            ffplayToMatHelper = gameObject.GetComponent<FfplayToMatHelper>();
 
 #if UNITY_WEBGL
             getFilePath_Coroutine = GetFilePath();
@@ -191,7 +191,7 @@ namespace FfmpegWithOpenCVForUnityExample
 //                // Avoids the front camera low light issue that occurs in only some Android devices (e.g. Google Pixel, Pixel2).
 //                webCamTextureToMatHelper.avoidAndroidFrontCameraLowLightIssue = true;
 //#endif
-                ffmpegToMatHelper.Initialize();
+                ffplayToMatHelper.Initialize();
             }
             else
             {
@@ -252,17 +252,12 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper initialized event.
         /// </summary>
-        public void OnFfmpegToMatHelperInitialized()
+        public void OnFfplayToMatHelperInitialized()
         {
-            Debug.Log("OnFfmpegToMatHelperInitialized");
+            Debug.Log("OnFfplayToMatHelperInitialized");
 
-            Mat ffmpegMat = ffmpegToMatHelper.GetMat();
+            Mat ffmpegMat = ffplayToMatHelper.GetMat();
 
-            if (texture != null)
-            {
-                Texture2D.Destroy(texture);
-                texture = null;
-            }
             texture = new Texture2D(ffmpegMat.cols(), ffmpegMat.rows(), TextureFormat.RGBA32, false);
             Utils.matToTexture2D(ffmpegMat, texture);
 
@@ -299,37 +294,37 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// Raises the webcam texture to mat helper disposed event.
         /// </summary>
-        public void OnFfmpegToMatHelperDisposed()
+        public void OnFfplayToMatHelperDisposed()
         {
-            Debug.Log("OnFfmpegToMatHelperDisposed");
+            Debug.Log("OnFfplayToMatHelperDisposed");
 
             if (bgrMat != null)
                 bgrMat.Dispose();
 
-            //if (texture != null)
-            //{
-            //    Texture2D.Destroy(texture);
-            //    texture = null;
-            //}
+            if (texture != null)
+            {
+                Texture2D.Destroy(texture);
+                texture = null;
+            }
         }
 
         /// <summary>
         /// Raises the webcam texture to mat helper error occurred event.
         /// </summary>
         /// <param name="errorCode">Error code.</param>
-        public void OnFfmpegToMatHelperErrorOccurred(FfmpegToMatHelper.ErrorCode errorCode)
+        public void OnFfplayToMatHelperErrorOccurred(FfplayToMatHelper.ErrorCode errorCode)
         {
-            Debug.Log("OnFfmpegToMatHelperErrorOccurred " + errorCode);
+            Debug.Log("OnFfplayToMatHelperErrorOccurred " + errorCode);
         }
 
         // Update is called once per frame
         void Update()
         {
 
-            if (ffmpegToMatHelper.IsPlaying() && ffmpegToMatHelper.DidUpdateThisFrame())
+            if (ffplayToMatHelper.IsPlaying() && ffplayToMatHelper.DidUpdateThisFrame())
             {
 
-                Mat rgbaMat = ffmpegToMatHelper.GetMat();
+                Mat rgbaMat = ffplayToMatHelper.GetMat();
 
                 if (objectDetector == null)
                 {
@@ -364,7 +359,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         void OnDestroy()
         {
-            ffmpegToMatHelper.Dispose();
+            ffplayToMatHelper.Dispose();
 
             if (objectDetector != null)
                 objectDetector.dispose();
@@ -393,7 +388,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPlayButtonClick()
         {
-            ffmpegToMatHelper.Play();
+            ffplayToMatHelper.Play();
         }
 
         /// <summary>
@@ -401,7 +396,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnPauseButtonClick()
         {
-            ffmpegToMatHelper.Pause();
+            ffplayToMatHelper.Pause();
         }
 
         /// <summary>
@@ -409,7 +404,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnStopButtonClick()
         {
-            ffmpegToMatHelper.Stop();
+            ffplayToMatHelper.Stop();
         }
 
         /// <summary>

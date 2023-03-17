@@ -26,6 +26,9 @@
     ![download_dnn_models.png](download_dnn_models.png)
     * Move the files from the "OpenCVForUnity/StreamingAssets/" folder to the "Assets/StreamingAssets" folder.
     ![move_streamingassetsfolder.png](move_streamingassetsfolder.png)
+    * Enable "Allow 'unsafe' Code".
+    ![enable_unsafecode.png](enable_unsafecode.png)
+    ![allow_unsafecode.png](allow_unsafecode.png)
 1. Import and Setup [FFmpeg for Unity](https://assetstore.unity.com/packages/tools/video/ffmpeg-for-unity-199811).
 1. Import [Runtime Inspector & Hierarchy](https://assetstore.unity.com/packages/tools/gui/runtime-inspector-hierarchy-111349).
 1. Import [In-game Debug Console](https://assetstore.unity.com/packages/tools/gui/in-game-debug-console-68068#releases).

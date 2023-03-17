@@ -2,7 +2,6 @@ using FfmpegUnity;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
-using OpenCVForUnity.UtilsModule;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -12,11 +11,11 @@ using UnityEngine.Serialization;
 namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 {
     /// <summary>
-    /// Ffmpeg to mat helper.
+    /// FfmpegGetTexturePerFrameCommand to mat helper.
     /// v 1.0.1
     /// </summary>
-    [RequireComponent(typeof(FfmpegPlayerCommand))]
-    public class FfmpegToMatHelper : MonoBehaviour
+    [RequireComponent(typeof(FfmpegGetTexturePerFrameCommandCustom))]
+    public class FfmpegGetTexturePerFrameToMatHelper : MonoBehaviour
     {
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         /// <summary>
         /// 
         /// </summary>
-        protected FfmpegPlayerCommand readCommand;
+        protected FfmpegGetTexturePerFrameCommandCustom readCommand;
 
         /// <summary>
         /// 
@@ -137,8 +136,36 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
         void Awake()
         {
-            readCommand = GetComponent<FfmpegPlayerCommand>();
+            readCommand = GetComponent<FfmpegGetTexturePerFrameCommandCustom>();
             readCommand.ExecuteOnStart = false;
+        }
+
+        protected virtual void LateUpdate()
+        {
+            if (!hasInitDone)
+                return;
+
+            ReadFrame();
+
+        }
+
+        protected virtual void ReadFrame()
+        {
+
+            Texture2D videoTexture = readCommand.VideoTextures[0].VideoTexture as Texture2D;
+
+            if (readCommand.WriteNextTexture())
+            {
+
+                Utils.fastTexture2DToMat(videoTexture, baseMat, false);
+
+                didUpdateThisFrame = true;
+
+            }
+            else
+            {
+                didUpdateThisFrame = false;
+            }
         }
 
         /// <summary>
@@ -203,7 +230,6 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             int initFrameCount = 0;
             bool isTimeout = false;
 
-            
             while (readCommand.VideoTextures[0].VideoTexture == null)
             {
                 if (initFrameCount > timeoutFrameCount)
@@ -281,7 +307,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         {
             if (hasInitDone)
             {
-                
+
 
             }
         }
@@ -305,7 +331,6 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         /// <returns><c>true</c>, if the video is playing, <c>false</c> otherwise.</returns>
         public virtual bool IsPlaying()
         {
-
             return hasInitDone ? readCommand.IsPlaying : false;
         }
 
@@ -341,10 +366,10 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         }
 
         /// <summary>
-        /// Returns the FfmpegPlayerCommand instance.
+        /// Returns the FfmpegGetTexturePerFrameCommand instance.
         /// </summary>
-        /// <returns>The FfmpegPlayerCommand instance.</returns>
-        public virtual FfmpegPlayerCommand GetFfmpegPlayerCommand()
+        /// <returns>The FfmpegGetTexturePerFrameCommand instance.</returns>
+        public virtual FfmpegGetTexturePerFrameCommand GetFfmpegGetTexturePerFrameCommand()
         {
             return hasInitDone ? readCommand : null;
         }
@@ -358,8 +383,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             if (!hasInitDone)
                 return false;
 
-            //return didUpdateThisFrame;
-            return true;
+            return didUpdateThisFrame;
         }
 
         /// <summary>
@@ -376,11 +400,11 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             if (baseColorFormat == outputColorFormat)
             {
-                Utils.fastTexture2DToMat(readCommand.VideoTextures[0].VideoTexture as Texture2D, frameMat, false);
+                //baseMat.copyTo(frameMat);
+
             }
             else
             {
-                Utils.fastTexture2DToMat(readCommand.VideoTextures[0].VideoTexture as Texture2D, baseMat, false);
                 Imgproc.cvtColor(baseMat, frameMat, ColorConversionCodes(baseColorFormat, outputColorFormat));
             }
 
