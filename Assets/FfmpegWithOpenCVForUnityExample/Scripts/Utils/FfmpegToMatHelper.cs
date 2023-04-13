@@ -233,7 +233,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             Texture2D videoTexture = readCommand.VideoTextures[0].VideoTexture as Texture2D;
 
-            baseMat = new Mat(videoTexture.height, videoTexture.width, CvType.CV_8UC4);
+            baseMat = new Mat(videoTexture.height, videoTexture.width, CvType.CV_8UC4, new Scalar(0, 0, 0, 255));
 
             if (baseColorFormat == outputColorFormat)
             {

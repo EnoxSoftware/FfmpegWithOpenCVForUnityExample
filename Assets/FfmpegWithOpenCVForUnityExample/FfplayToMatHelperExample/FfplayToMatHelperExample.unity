@@ -4237,9 +4237,9 @@ GameObject:
   - component: {fileID: 1709852087}
   - component: {fileID: 1709852090}
   - component: {fileID: 1709852089}
-  - component: {fileID: 1709852093}
-  - component: {fileID: 1709852092}
+  - component: {fileID: 1709852094}
   - component: {fileID: 1709852086}
+  - component: {fileID: 1709852092}
   - component: {fileID: 1709852091}
   m_Layer: 0
   m_Name: Quad
@@ -4335,14 +4335,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: -rtsp_transport tcp
   DefaultPath: 0
   InputPath: rtsp://atomcam.local:8554/video0_unicast
-  VideoTexture: {fileID: 1709852087}
+  VideoTexture: {fileID: 0}
   AudioSourceComponent: {fileID: 1709852091}
   PrintStdErr: 0
 --- !u!114 &1709852087
@@ -4556,17 +4556,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: 
   DefaultPath: 0
-  InputPath: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1678755338/ei/qnEPZImOJbiVvcAPxbaR6A8/ip/240f:31:c139:1:ac6d:b20d:eaff:b6d6/id/gFRtAAmiFbE.3/itag/96/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D137/hls_chunk_host/rr8---sn-3qqp-ioqld.googlevideo.com/playlist_duration/30/manifest_duration/30/spc/H3gIhjgj7JxHXPdxYohvOW9pmKw7yBQ/vprv/1/playlist_type/DVR/initcwndbps/940000/mh/aW/mm/44/mn/sn-3qqp-ioqld/ms/lva/mv/m/mvi/8/pl/38/dover/11/pacing/0/keepalive/yes/fexp/24007246/mt/1678733333/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,sgoap,sgovp,playlist_duration,manifest_duration,spc,vprv,playlist_type/sig/AOq0QJ8wRgIhAMHHkFcjFTx521c2eyV0bz-pPP4XyLc6yLGqM4tHHTr-AiEAmZ7Pp5G0oaDoC-IlnNRun6gDxZOFXYozh-r3O9TQARw%3D/lsparams/hls_chunk_host,initcwndbps,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRgIhAIUEiIz36mCIStQIrVXaTrTz4Jt6_iVACvvh_0WKY4cZAiEArT0iBLP5B95MxAZHPBzyxZqDRqtazmLNddR9TtxNKPQ%3D/playlist/index.m3u8
-  VideoTexture: {fileID: 1709852087}
+  InputPath: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1681050643/ei/s3cyZKuaEOnUrQS5jpGQBA/ip/240f:31:c139:1:28ac:70e5:4864:8291/id/DjdUEyjx8GM.2/itag/96/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D137/hls_chunk_host/rr2---sn-3qqp-ioqld.googlevideo.com/playlist_duration/30/manifest_duration/30/spc/99c5CTJlL1qkWZVRzgaTaPLSsPTn3us/vprv/1/playlist_type/DVR/initcwndbps/487500/mh/SI/mm/44/mn/sn-3qqp-ioqld/ms/lva/mv/m/mvi/2/pl/38/dover/11/pacing/0/keepalive/yes/fexp/24007246/mt/1681028681/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,sgoap,sgovp,playlist_duration,manifest_duration,spc,vprv,playlist_type/sig/AOq0QJ8wRgIhAPlcOrWjnPZlcR6NBLGsUbF1NqaejZsEOmKSkJQ7xsEnAiEAyCb4PpSUvCVoNeoUSSWWKiedJh3xKAkG5cSvagOxvzY%3D/lsparams/hls_chunk_host,initcwndbps,mh,mm,mn,ms,mv,mvi,pl/lsig/AG3C_xAwRAIgLfDnSgU3y_cgPTRgfH9e9yOHX20lLMYGwJARGTtC-W0CIHc28uSx9YyMO6umplmyXc2oETVjpxh3f830mR_B1C8s/playlist/index.m3u8
+  VideoTexture: {fileID: 0}
   AudioSourceComponent: {fileID: 1709852091}
   PrintStdErr: 0
---- !u!114 &1709852093
+--- !u!114 &1709852094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4575,14 +4575,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: 
   DefaultPath: 1
   InputPath: OpenCVForUnity/768x576_mjpeg.mjpeg
-  VideoTexture: {fileID: 1709852087}
+  VideoTexture: {fileID: 0}
   AudioSourceComponent: {fileID: 1709852091}
   PrintStdErr: 0
 --- !u!1 &1719026243

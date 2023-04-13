@@ -1639,7 +1639,7 @@ GameObject:
   - component: {fileID: 1709852086}
   - component: {fileID: 1709852089}
   - component: {fileID: 1709852088}
-  - component: {fileID: 1709852092}
+  - component: {fileID: 1709852094}
   - component: {fileID: 1709852091}
   - component: {fileID: 1709852087}
   - component: {fileID: 1709852090}
@@ -1750,15 +1750,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: -rtsp_transport tcp
   DefaultPath: 0
   InputPath: rtsp://atomcam.local:8554/video0_unicast
-  VideoTexture: {fileID: 1709852086}
-  AudioSourceComponent: {fileID: 0}
+  VideoTexture: {fileID: 0}
+  AudioSourceComponent: {fileID: 1709852090}
   PrintStdErr: 0
 --- !u!114 &1709852088
 MonoBehaviour:
@@ -1947,34 +1947,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: 
   DefaultPath: 0
   InputPath: https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1678708918/ei/VrwOZIfHFseX1d8P-p29yAg/ip/240f:31:c139:1:b57d:337:7f0e:1722/id/gFRtAAmiFbE.3/itag/96/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D137/hls_chunk_host/rr8---sn-3qqp-ioqld.googlevideo.com/playlist_duration/30/manifest_duration/30/spc/H3gIhr3Eb2in9fYvVt6XkFXnHZD2KzM/vprv/1/playlist_type/DVR/initcwndbps/750000/mh/aW/mm/44/mn/sn-3qqp-ioqld/ms/lva/mv/m/mvi/8/pcm2cms/yes/pl/44/dover/11/pacing/0/keepalive/yes/fexp/24007246/mt/1678686990/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,sgoap,sgovp,playlist_duration,manifest_duration,spc,vprv,playlist_type/sig/AOq0QJ8wRQIhAKIEwhlyVNyRwNJBRsApYDcL7ZncVW54dG9thw-Fk6JkAiAm5pO1raTDewuc84noCA2Ngduxkx-t3YR7tTeBaTDr7g%3D%3D/lsparams/hls_chunk_host,initcwndbps,mh,mm,mn,ms,mv,mvi,pcm2cms,pl/lsig/AG3C_xAwRgIhAPIrmjgHGzS-d47T5Usiu6wVz8YzUOMgYdptkPHlrfMwAiEAxB_3hohFaL1Usv19av3P-vZVPcJYp666uFSpVkuqqW8%3D/playlist/index.m3u8
-  VideoTexture: {fileID: 1709852086}
-  AudioSourceComponent: {fileID: 0}
-  PrintStdErr: 0
---- !u!114 &1709852092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709852081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
-  Options: 
-  DefaultPath: 1
-  InputPath: OpenCVForUnity/768x576_mjpeg.mjpeg
-  VideoTexture: {fileID: 1709852086}
-  AudioSourceComponent: {fileID: 0}
+  VideoTexture: {fileID: 0}
+  AudioSourceComponent: {fileID: 1709852090}
   PrintStdErr: 0
 --- !u!114 &1709852093
 MonoBehaviour:
@@ -1995,6 +1976,25 @@ MonoBehaviour:
   boxHeight: 110
   padding: {x: 8, y: 5}
   consoleHeight: 50
+--- !u!114 &1709852094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709852081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExecuteOnStart: 1
+  Options: 
+  DefaultPath: 1
+  InputPath: OpenCVForUnity/768x576_mjpeg.mjpeg
+  VideoTexture: {fileID: 0}
+  AudioSourceComponent: {fileID: 1709852090}
+  PrintStdErr: 0
 --- !u!1001 &1874197060
 PrefabInstance:
   m_ObjectHideFlags: 0

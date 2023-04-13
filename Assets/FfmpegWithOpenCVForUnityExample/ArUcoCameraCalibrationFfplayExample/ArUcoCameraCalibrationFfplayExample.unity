@@ -7784,7 +7784,7 @@ GameObject:
   - component: {fileID: 1709852092}
   - component: {fileID: 1709852090}
   - component: {fileID: 1709852088}
-  - component: {fileID: 1709852089}
+  - component: {fileID: 1709852091}
   - component: {fileID: 1709852087}
   - component: {fileID: 1709852086}
   m_Layer: 0
@@ -7977,14 +7977,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709852081}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
+  ExecuteOnStart: 1
   Options: -rtsp_transport tcp
   DefaultPath: 0
   InputPath: rtsp://atomcam.local:8554/video0_unicast
-  VideoTexture: {fileID: 1709852088}
+  VideoTexture: {fileID: 0}
   AudioSourceComponent: {fileID: 1709852086}
   PrintStdErr: 0
 --- !u!114 &1709852088
@@ -8000,25 +8000,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VideoTexture: {fileID: 0}
---- !u!114 &1709852089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709852081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ExecuteOnStart: 0
-  Options: 
-  DefaultPath: 1
-  InputPath: OpenCVForUnity/768x576_mjpeg.mjpeg
-  VideoTexture: {fileID: 1709852088}
-  AudioSourceComponent: {fileID: 0}
-  PrintStdErr: 0
 --- !u!114 &1709852090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8055,6 +8036,25 @@ MonoBehaviour:
   refineMarkerDetection: 1
   isImagesInputMode: 0
   calibrationImagesDirectory: OpenCVForUnity/aruco/calibration_images
+--- !u!114 &1709852091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709852081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76800fe878d16d489b8dba9e80d8f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExecuteOnStart: 1
+  Options: 
+  DefaultPath: 1
+  InputPath: OpenCVForUnity/768x576_mjpeg.mjpeg
+  VideoTexture: {fileID: 0}
+  AudioSourceComponent: {fileID: 1709852086}
+  PrintStdErr: 0
 --- !u!114 &1709852092
 MonoBehaviour:
   m_ObjectHideFlags: 0
