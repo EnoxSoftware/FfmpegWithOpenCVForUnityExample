@@ -4550,6 +4550,7 @@ MonoBehaviour:
   - {fileID: 1709852091}
   SyncFrameRate: 1
   BufferTime: 0
+  VideoBuffersCount: 1
 --- !u!114 &1709852090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4758,6 +4759,7 @@ MonoBehaviour:
   - {fileID: 1709852091}
   SyncFrameRate: 1
   BufferTime: 0
+  VideoBuffersCount: 1
 --- !u!1 &1719026243
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using FfmpegUnity;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
+using OpenCVForUnity.UtilsModule;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -12,9 +13,9 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 {
     /// <summary>
     /// FfmpegGetTexturePerFrameCommand to mat helper.
-    /// v 1.0.1
+    /// v 1.0.2
     /// </summary>
-    [RequireComponent(typeof(FfmpegGetTexturePerFrameCommandCustom))]
+    [RequireComponent(typeof(FfmpegGetTexturePerFrameIntPtrCommandCustom))]
     public class FfmpegGetTexturePerFrameToMatHelper : MonoBehaviour
     {
 
@@ -68,7 +69,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         /// <summary>
         /// 
         /// </summary>
-        protected FfmpegGetTexturePerFrameCommandCustom readCommand;
+        protected FfmpegGetTexturePerFrameIntPtrCommandCustom readCommand;
 
         /// <summary>
         /// 
@@ -136,7 +137,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
         void Awake()
         {
-            readCommand = GetComponent<FfmpegGetTexturePerFrameCommandCustom>();
+            readCommand = GetComponent<FfmpegGetTexturePerFrameIntPtrCommandCustom>();
             readCommand.ExecuteOnStart = false;
         }
 
@@ -152,12 +153,10 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         protected virtual void ReadFrame()
         {
 
-            Texture2D videoTexture = readCommand.VideoTextures[0].VideoTexture as Texture2D;
-
             if (readCommand.WriteNextTexture())
             {
-
-                Utils.fastTexture2DToMat(videoTexture, baseMat, false);
+                //MatUtils.copyToMat(readCommand.GetVideoOutputIntPtr(), baseMat);
+                MatUtils.copyToMat<byte>(readCommand.GetVideoOutputBytes(), baseMat);
 
                 didUpdateThisFrame = true;
 
@@ -214,7 +213,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             isInitWaiting = true;
 
-            if (readCommand.VideoTextures.Length < 1 || readCommand.VideoTextures[0] == null)
+            if (readCommand.VideoBuffersCount < 1)
             {
                 isInitWaiting = false;
                 initCoroutine = null;
@@ -230,7 +229,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             int initFrameCount = 0;
             bool isTimeout = false;
 
-            while (readCommand.VideoTextures[0].VideoTexture == null)
+            while (!readCommand.IsPlaying)
             {
                 if (initFrameCount > timeoutFrameCount)
                 {
@@ -257,9 +256,17 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
 
             //Debug.Log("readCommand.ReturnCode " + readCommand.ReturnCode);
 
-            Texture2D videoTexture = readCommand.VideoTextures[0].VideoTexture as Texture2D;
+            int width;
+            int height;
+            do
+            {
+                yield return null;
+                readCommand.WriteNextTexture();
+                width = readCommand.GetVideoOutputWidth();
+                height = readCommand.GetVideoOutputHeight();
+            } while (width <= 0 || height <= 0);
 
-            baseMat = new Mat(videoTexture.height, videoTexture.width, CvType.CV_8UC4);
+            baseMat = new Mat(height, width, CvType.CV_8UC4, new Scalar(0, 0, 0, 255));
 
             if (baseColorFormat == outputColorFormat)
             {
@@ -366,10 +373,10 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
         }
 
         /// <summary>
-        /// Returns the FfmpegGetTexturePerFrameCommand instance.
+        /// Returns the FfmpegGetTexturePerFrameIntPtrCommand instance.
         /// </summary>
         /// <returns>The FfmpegGetTexturePerFrameCommand instance.</returns>
-        public virtual FfmpegGetTexturePerFrameCommand GetFfmpegGetTexturePerFrameCommand()
+        public virtual FfmpegGetTexturePerFrameIntPtrCommand GetFfmpegGetTexturePerFrameIntPtrCommand()
         {
             return hasInitDone ? readCommand : null;
         }
@@ -549,7 +556,7 @@ namespace FfmpegWithOpenCVForUnity.UnityUtils.Helper
             hasInitDone = false;
 
             didUpdateThisFrame = false;
- 
+
             readCommand.StopFfmpeg();
 
             if (frameMat != null)
