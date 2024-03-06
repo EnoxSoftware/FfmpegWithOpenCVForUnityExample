@@ -84,13 +84,13 @@ namespace FfmpegWithOpenCVForUnityExample
         {
             SceneManager.LoadScene("FfmpegGetTexturePerFrameToMatHelperExample");
         }
-        public void OnYOLOv7ObjectDetectionFfplayExampleButtonClick()
+        public void OnObjectDetectionYOLOXFfplayExampleButtonClick()
         {
-            SceneManager.LoadScene("YOLOv7ObjectDetectionFfplayExample");
+            SceneManager.LoadScene("ObjectDetectionYOLOXFfplayExample");
         }
-        public void OnHumanSegmentationFfplayExampleButtonClick()
+        public void OnHumanSegmentationPPHumanSegFfplayExampleButtonClick()
         {
-            SceneManager.LoadScene("HumanSegmentationFfplayExample");
+            SceneManager.LoadScene("HumanSegmentationPPHumanSegFfplayExample");
         }
 
         public void OnArUcoCameraCalibrationFfplayExampleButtonClick()

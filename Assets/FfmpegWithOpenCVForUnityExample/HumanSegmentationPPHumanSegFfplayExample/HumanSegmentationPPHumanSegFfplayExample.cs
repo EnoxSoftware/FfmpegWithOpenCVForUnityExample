@@ -1,26 +1,43 @@
-#if !(PLATFORM_LUMIN && !UNITY_EDITOR)
-
 #if !UNITY_WSA_10_0
 
-using FfmpegWithOpenCVForUnity.UnityUtils.Helper;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.DnnModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
-using System;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using OpenCVForUnity.UnityUtils.Helper;
+using FfmpegWithOpenCVForUnity.UnityUtils.Helper;
 
-namespace FfmpegWithOpenCVForUnityExample
+namespace OpenCVForUnityExample
 {
     /// <summary>
-    /// Human Segmentation WebCam Example
+    /// Human Segmentation PPHumanSeg Example
     /// An example of using OpenCV dnn module with Human Segmentation model.
-    /// Referring to https://github.com/opencv/opencv_zoo/tree/master/models/human_segmentation_pphumanseg.
+    /// Referring to https://github.com/opencv/opencv_zoo/tree/master/models/human_segmentation_pphumanseg
     /// </summary>
     [RequireComponent(typeof(FfplayToMatHelper))]
-    public class HumanSegmentationFfplayExample : MonoBehaviour
+    public class HumanSegmentationPPHumanSegFfplayExample : MonoBehaviour
     {
+        /// <summary>
+        /// The compose bg image toggle.
+        /// </summary>
+        public Toggle composeBGImageToggle;
+
+        /// <summary>
+        /// The hide person toggle.
+        /// </summary>
+        public Toggle hidePersonToggle;
+
+        /// <summary>
+        /// The background image texture.
+        /// </summary>
+        public Texture2D backGroundImageTexture;
+
         /// <summary>
         /// The texture.
         /// </summary>
@@ -42,6 +59,16 @@ namespace FfmpegWithOpenCVForUnityExample
         Mat maskMat;
 
         /// <summary>
+        /// The background mask mat.
+        /// </summary>
+        Mat bgMaskMat;
+
+        /// <summary>
+        /// The background image mat.
+        /// </summary>
+        Mat backGroundImageMat;
+
+        /// <summary>
         /// The net.
         /// </summary>
         Net net;
@@ -54,7 +81,7 @@ namespace FfmpegWithOpenCVForUnityExample
         /// <summary>
         /// MODEL_FILENAME
         /// </summary>
-        protected static readonly string MODEL_FILENAME = "OpenCVForUnity/dnn/human_segmentation_pphumanseg_2021oct.onnx";
+        protected static readonly string MODEL_FILENAME = "OpenCVForUnity/dnn/human_segmentation_pphumanseg_2023mar.onnx";
 
         /// <summary>
         /// The model filepath.
@@ -111,10 +138,10 @@ namespace FfmpegWithOpenCVForUnityExample
                 net = Dnn.readNet(model_filepath);
             }
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
-//            // Avoids the front camera low light issue that occurs in only some Android devices (e.g. Google Pixel, Pixel2).
-//            webCamTextureToMatHelper.avoidAndroidFrontCameraLowLightIssue = true;
-//#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+            // Avoids the front camera low light issue that occurs in only some Android devices (e.g. Google Pixel, Pixel2).
+            webCamTextureToMatHelper.avoidAndroidFrontCameraLowLightIssue = true;
+#endif
             ffplayToMatHelper.Initialize();
         }
 
@@ -125,26 +152,26 @@ namespace FfmpegWithOpenCVForUnityExample
         {
             Debug.Log("OnFfplayToMatHelperInitialized");
 
-            Mat ffmpegMat = ffplayToMatHelper.GetMat();
+            Mat webCamTextureMat = ffplayToMatHelper.GetMat();
 
-            texture = new Texture2D(ffmpegMat.cols(), ffmpegMat.rows(), TextureFormat.RGBA32, false);
-            Utils.matToTexture2D(ffmpegMat, texture);
+            texture = new Texture2D(webCamTextureMat.cols(), webCamTextureMat.rows(), TextureFormat.RGBA32, false);
+            Utils.matToTexture2D(webCamTextureMat, texture);
 
             gameObject.GetComponent<Renderer>().material.mainTexture = texture;
 
-            gameObject.transform.localScale = new Vector3(ffmpegMat.cols(), ffmpegMat.rows(), 1);
+            gameObject.transform.localScale = new Vector3(webCamTextureMat.cols(), webCamTextureMat.rows(), 1);
             Debug.Log("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
 
             if (fpsMonitor != null)
             {
-                fpsMonitor.Add("width", ffmpegMat.width().ToString());
-                fpsMonitor.Add("height", ffmpegMat.height().ToString());
+                fpsMonitor.Add("width", webCamTextureMat.width().ToString());
+                fpsMonitor.Add("height", webCamTextureMat.height().ToString());
                 fpsMonitor.Add("orientation", Screen.orientation.ToString());
             }
 
 
-            float width = ffmpegMat.width();
-            float height = ffmpegMat.height();
+            float width = webCamTextureMat.width();
+            float height = webCamTextureMat.height();
 
             float widthScale = (float)Screen.width / width;
             float heightScale = (float)Screen.height / height;
@@ -157,9 +184,19 @@ namespace FfmpegWithOpenCVForUnityExample
                 Camera.main.orthographicSize = height / 2;
             }
 
-            rgbMat = new Mat(ffmpegMat.rows(), ffmpegMat.cols(), CvType.CV_8UC3);
-            maskMat = new Mat(ffmpegMat.rows(), ffmpegMat.cols(), CvType.CV_8UC1);
+            rgbMat = new Mat(webCamTextureMat.rows(), webCamTextureMat.cols(), CvType.CV_8UC3);
+            maskMat = new Mat(webCamTextureMat.rows(), webCamTextureMat.cols(), CvType.CV_8UC1);
 
+            bgMaskMat = new Mat(webCamTextureMat.rows(), webCamTextureMat.cols(), CvType.CV_8UC1);
+            backGroundImageMat = new Mat(webCamTextureMat.size(), CvType.CV_8UC4, new Scalar(39, 255, 86, 255));
+            if (backGroundImageTexture != null)
+            {
+                using (Mat bgMat = new Mat(backGroundImageTexture.height, backGroundImageTexture.width, CvType.CV_8UC4))
+                {
+                    Utils.texture2DToMat(backGroundImageTexture, bgMat);
+                    Imgproc.resize(bgMat, backGroundImageMat, backGroundImageMat.size());
+                }
+            }
         }
 
         /// <summary>
@@ -174,6 +211,12 @@ namespace FfmpegWithOpenCVForUnityExample
 
             if (maskMat != null)
                 maskMat.Dispose();
+
+            if (bgMaskMat != null)
+                bgMaskMat.Dispose();
+
+            if (backGroundImageMat != null)
+                backGroundImageMat.Dispose();
 
             if (texture != null)
             {
@@ -222,14 +265,23 @@ namespace FfmpegWithOpenCVForUnityExample
                     Mat result = new Mat();
                     Core.reduceArgMax(prob, result, 1);
                     //result.reshape(0, new int[] { 192,192});
-                    result.convertTo(result, CvType.CV_8U);
+                    result.convertTo(result, CvType.CV_8U, 255.0);
                     //Debug.Log("result.ToString(): " + result.ToString());
-
 
                     Mat mask192x192 = new Mat(192, 192, CvType.CV_8UC1, (IntPtr)result.dataAddr());
                     Imgproc.resize(mask192x192, maskMat, rgbaMat.size(), Imgproc.INTER_NEAREST);
 
-                    rgbaMat.setTo(new Scalar(255, 255, 255,255), maskMat);
+                    if (composeBGImageToggle.isOn)
+                    {
+                        // Compose the background image.
+                        Core.bitwise_not(maskMat, bgMaskMat);
+                        backGroundImageMat.copyTo(rgbaMat, bgMaskMat);
+                    }
+
+                    if (hidePersonToggle.isOn)
+                    {
+                        rgbaMat.setTo(new Scalar(255, 255, 255, 255), maskMat);
+                    }
 
                     mask192x192.Dispose();
                     result.Dispose();
@@ -301,11 +353,9 @@ namespace FfmpegWithOpenCVForUnityExample
         /// </summary>
         public void OnChangeCameraButtonClick()
         {
-            //webCamTextureToMatHelper.requestedIsFrontFacing = !webCamTextureToMatHelper.requestedIsFrontFacing;
+            //ffplayToMatHelper.requestedIsFrontFacing = !ffplayToMatHelper.requestedIsFrontFacing;
         }
-
     }
 }
-#endif
 
 #endif

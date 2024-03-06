@@ -1,5 +1,3 @@
-#if !(PLATFORM_LUMIN && !UNITY_EDITOR)
-
 using FfmpegWithOpenCVForUnity.UnityUtils.Helper;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
@@ -362,5 +360,3 @@ namespace FfmpegWithOpenCVForUnityExample
         //}
     }
 }
-
-#endif

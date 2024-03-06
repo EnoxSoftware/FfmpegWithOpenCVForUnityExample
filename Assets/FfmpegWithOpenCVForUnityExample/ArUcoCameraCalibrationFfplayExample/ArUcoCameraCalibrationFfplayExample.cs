@@ -1,5 +1,3 @@
-#if !(PLATFORM_LUMIN && !UNITY_EDITOR)
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -1494,5 +1492,3 @@ namespace FfmpegWithOpenCVForUnityExample
         }
     }
 }
-
-#endif
