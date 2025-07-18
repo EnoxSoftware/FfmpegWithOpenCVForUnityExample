@@ -12,7 +12,7 @@
 - Windows / macOS / Linux / Android / iOS
 - Unity >= 2021.3.35f1+
 - Scripting backend MONO / IL2CPP
-- [OpenCV for Unity](https://assetstore.unity.com/packages/tools/integration/opencv-for-unity-21088?aid=1011l4ehR) 2.5.9+
+- [OpenCV for Unity](https://assetstore.unity.com/packages/tools/integration/opencv-for-unity-21088?aid=1011l4ehR) 3.0.0+
 - [FFmpeg for Unity](https://github.com/MUMEI-NON906/FfmpegUnityDocs) 2.11.1+
 - [Runtime Inspector & Hierarchy](https://assetstore.unity.com/packages/tools/gui/runtime-inspector-hierarchy-111349) 1.7.0+
 - [In-game Debug Console](https://assetstore.unity.com/packages/tools/gui/in-game-debug-console-68068#releases) 1.5.9+
