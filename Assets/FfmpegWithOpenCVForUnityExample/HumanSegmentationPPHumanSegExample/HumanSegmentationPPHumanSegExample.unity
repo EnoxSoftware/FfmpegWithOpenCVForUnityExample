@@ -2562,6 +2562,7 @@ GameObject:
   - component: {fileID: 1709852094}
   - component: {fileID: 1709852093}
   - component: {fileID: 1709852096}
+  - component: {fileID: 1709852097}
   - component: {fileID: 1709852092}
   m_Layer: 0
   m_Name: HumanSegmentationPPHumanSegExample
@@ -2845,6 +2846,25 @@ MonoBehaviour:
   Options: 
   DefaultPath: 0
   InputPath: https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+  VideoTexture: {fileID: 1709852094}
+  AudioSourceComponent: {fileID: 1709852092}
+  PrintStdErr: 0
+--- !u!114 &1709852097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709852081}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1074a08d2e8cd1746aad9fd5ad2b81d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExecuteOnStart: 1
+  Options: -rtsp_transport tcp
+  DefaultPath: 0
+  InputPath: rtsp://atomcam.local:8554/video0_unicast
   VideoTexture: {fileID: 1709852094}
   AudioSourceComponent: {fileID: 1709852092}
   PrintStdErr: 0

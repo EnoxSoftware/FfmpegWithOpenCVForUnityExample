@@ -74,21 +74,6 @@ namespace FfmpegWithOpenCVForUnityExample
             SceneManager.LoadScene("ShowLicense");
         }
 
-        public void OnFfmpegToMatHelperExampleButtonClick()
-        {
-            SceneManager.LoadScene("FfmpegToMatHelperExample");
-        }
-
-        public void OnFfplayToMatHelperExampleButtonClick()
-        {
-            SceneManager.LoadScene("FfplayToMatHelperExample");
-        }
-
-        public void OnFfmpegGetTexturePerFrameToMatHelperExampleButtonClick()
-        {
-            SceneManager.LoadScene("FfmpegGetTexturePerFrameToMatHelperExample");
-        }
-
         public void OnFfmpegAsyncGPUReadback2MatHelperExampleButtonClick()
         {
             SceneManager.LoadScene("FfmpegAsyncGPUReadback2MatHelperExample");
